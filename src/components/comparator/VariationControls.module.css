@@ -158,3 +158,47 @@
   border-color: var(--app-accent);
   background: var(--app-accent-subtle);
 }
+
+/* ── AI-specific additions ── */
+
+.toggleLink {
+  font-size: 12px;
+  color: var(--app-text-tertiary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--app-font);
+  transition: color 120ms ease;
+}
+
+.toggleLink:hover {
+  color: var(--app-text-secondary);
+}
+
+.errorMessage {
+  margin-top: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: var(--app-radius-sm);
+  line-height: 1.5;
+}
+
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

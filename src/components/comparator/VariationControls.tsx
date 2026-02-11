@@ -189,6 +189,12 @@ export default function VariationControls() {
   const { state, dispatch } = useProject();
   const [cssText, setCssText] = useState("");
   const [label, setLabel] = useState("");
+  const [aiDirection, setAiDirection] = useState("");
+  const [aiBrandContext, setAiBrandContext] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [showBrandContext, setShowBrandContext] = useState(false);
+  const [showManual, setShowManual] = useState(false);
 
   const createVariation = useCallback(
     (direction: string, overrideCss: string, customLabel?: string) => {
@@ -223,6 +229,49 @@ export default function VariationControls() {
     [state.baseTokens, dispatch]
   );
 
+  const handleAiGenerate = useCallback(async () => {
+    if (!state.baseTokens || !aiDirection.trim()) return;
+
+    setAiLoading(true);
+    setAiError(null);
+
+    try {
+      const res = await fetch("/api/transform", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          baseTokens: state.baseTokens,
+          direction: aiDirection.trim(),
+          brandContext: aiBrandContext.trim() || undefined,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || `Request failed (${res.status})`);
+      }
+
+      const tokenSet: TokenSet = data.variation;
+      const id = `variation-${++variationCounter}`;
+
+      const variation: Variation = {
+        id,
+        direction: aiDirection.trim(),
+        tokenSet: { ...tokenSet, id: `tokens-${id}` },
+        createdAt: new Date().toISOString(),
+        brandContext: aiBrandContext.trim() || undefined,
+      };
+
+      dispatch({ type: "ADD_VARIATION", variation });
+      setAiDirection("");
+    } catch (err) {
+      setAiError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setAiLoading(false);
+    }
+  }, [state.baseTokens, aiDirection, aiBrandContext, dispatch]);
+
   const handleApplyCustom = useCallback(() => {
     createVariation(label || "Custom override", cssText, label || undefined);
   }, [cssText, label, createVariation]);
@@ -234,8 +283,72 @@ export default function VariationControls() {
     [createVariation]
   );
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey && !aiLoading && aiDirection.trim()) {
+        e.preventDefault();
+        handleAiGenerate();
+      }
+    },
+    [aiLoading, aiDirection, handleAiGenerate]
+  );
+
   return (
     <div className={styles.container}>
+      {/* AI Direction input — primary action */}
+      <div>
+        <div className={styles.sectionTitle}>Visual direction</div>
+        <div className={styles.inputRow}>
+          <input
+            className={styles.textInput}
+            type="text"
+            placeholder="e.g. &quot;dark mode with a tint of blue&quot; or &quot;more expressive, rounder, warmer&quot;"
+            value={aiDirection}
+            onChange={(e) => setAiDirection(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={aiLoading}
+          />
+          <button
+            className={styles.submitButton}
+            disabled={aiLoading || !aiDirection.trim()}
+            onClick={handleAiGenerate}
+          >
+            {aiLoading ? (
+              <>
+                <span className={styles.spinner} />
+                Generating...
+              </>
+            ) : (
+              "Generate"
+            )}
+          </button>
+        </div>
+
+        {/* Brand context toggle */}
+        <div style={{ marginTop: 8 }}>
+          <button
+            className={styles.toggleLink}
+            onClick={() => setShowBrandContext(!showBrandContext)}
+          >
+            {showBrandContext ? "- Hide brand context" : "+ Add brand context"}
+          </button>
+          {showBrandContext && (
+            <textarea
+              className={styles.textarea}
+              style={{ marginTop: 8, minHeight: 80 }}
+              placeholder="Paste brand guidelines, color references, or describe the brand personality..."
+              value={aiBrandContext}
+              onChange={(e) => setAiBrandContext(e.target.value)}
+              disabled={aiLoading}
+            />
+          )}
+        </div>
+
+        {aiError && (
+          <div className={styles.errorMessage}>{aiError}</div>
+        )}
+      </div>
+
       {/* Presets */}
       <div>
         <div className={styles.sectionTitle}>Quick presets</div>
@@ -252,33 +365,42 @@ export default function VariationControls() {
         </div>
       </div>
 
-      <div className={styles.divider}>or paste custom tokens</div>
-
-      {/* Custom CSS input */}
+      {/* Manual CSS toggle */}
       <div>
-        <div className={styles.inputRow} style={{ marginBottom: 8 }}>
-          <input
-            className={styles.textInput}
-            type="text"
-            placeholder="Label (e.g. &quot;Blue tint dark mode&quot;)"
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-          />
-        </div>
-        <textarea
-          className={styles.textarea}
-          placeholder={`Paste CSS custom properties:\n\n--color-canvas-default: #0d1117;\n--color-fg-default: #e6edf3;\n--radius-2: 12px;`}
-          value={cssText}
-          onChange={(e) => setCssText(e.target.value)}
-        />
         <button
-          className={styles.applyButton}
-          disabled={cssText.trim().length === 0}
-          onClick={handleApplyCustom}
-          style={{ marginTop: 8 }}
+          className={styles.toggleLink}
+          onClick={() => setShowManual(!showManual)}
         >
-          Apply as variation
+          {showManual ? "- Hide manual CSS input" : "+ Paste custom CSS tokens"}
         </button>
+
+        {showManual && (
+          <div style={{ marginTop: 12 }}>
+            <div className={styles.inputRow} style={{ marginBottom: 8 }}>
+              <input
+                className={styles.textInput}
+                type="text"
+                placeholder="Label (e.g. &quot;Blue tint dark mode&quot;)"
+                value={label}
+                onChange={(e) => setLabel(e.target.value)}
+              />
+            </div>
+            <textarea
+              className={styles.textarea}
+              placeholder={`Paste CSS custom properties:\n\n--color-canvas-default: #0d1117;\n--color-fg-default: #e6edf3;\n--radius-2: 12px;`}
+              value={cssText}
+              onChange={(e) => setCssText(e.target.value)}
+            />
+            <button
+              className={styles.applyButton}
+              disabled={cssText.trim().length === 0}
+              onClick={handleApplyCustom}
+              style={{ marginTop: 8 }}
+            >
+              Apply as variation
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
