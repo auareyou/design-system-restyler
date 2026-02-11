@@ -1,0 +1,15 @@
+.sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--app-surface);
+  border-left: 1px solid var(--app-border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.divider {
+  height: 1px;
+  background: var(--app-border);
+  margin: 0 16px;
+}

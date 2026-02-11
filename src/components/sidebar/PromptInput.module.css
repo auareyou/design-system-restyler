@@ -1,0 +1,168 @@
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--app-text-tertiary);
+  margin-top: 4px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 6px;
+}
+
+.textInput {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 12px;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text);
+  outline: none;
+  font-family: var(--app-font);
+}
+
+.textInput:focus {
+  border-color: var(--app-accent);
+}
+
+.textInput::placeholder {
+  color: var(--app-text-tertiary);
+}
+
+.submitButton {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--app-accent);
+  color: white;
+  border: none;
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--app-accent-hover);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.toggleLink {
+  background: none;
+  border: none;
+  color: var(--app-text-tertiary);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.toggleLink:hover {
+  color: var(--app-text-secondary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: var(--app-font-mono);
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text);
+  outline: none;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.textarea:focus {
+  border-color: var(--app-accent);
+}
+
+.errorMessage {
+  font-size: 11px;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  padding: 6px 10px;
+  border-radius: var(--app-radius-sm);
+}
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset {
+  font-size: 11px;
+  padding: 4px 10px;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  border-radius: 100px;
+  color: var(--app-text-secondary);
+  cursor: pointer;
+}
+
+.preset:hover {
+  border-color: var(--app-accent);
+  color: var(--app-accent);
+}
+
+.forkBanner {
+  font-size: 11px;
+  color: var(--app-text-secondary);
+  background: var(--app-accent-subtle);
+  padding: 6px 10px;
+  border-radius: var(--app-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.forkBanner strong {
+  color: var(--app-text);
+}
+
+.forkClear {
+  background: none;
+  border: none;
+  color: var(--app-accent);
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: underline;
+}

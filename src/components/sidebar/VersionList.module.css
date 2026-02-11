@@ -1,0 +1,99 @@
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--app-text-tertiary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+  text-align: left;
+  color: var(--app-text);
+  width: 100%;
+}
+
+.item:hover {
+  background: var(--app-surface-raised);
+}
+
+.selected {
+  background: var(--app-accent-subtle);
+  border-color: var(--app-accent);
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.itemLabel {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--app-accent);
+  background: var(--app-accent-subtle);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.swatches {
+  display: flex;
+  gap: 3px;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid var(--app-border-subtle);
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--app-text-tertiary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.deleteButton:hover {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}

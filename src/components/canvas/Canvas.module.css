@@ -1,0 +1,25 @@
+.viewport {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--app-bg);
+  background-image: radial-gradient(circle, var(--app-border-subtle) 1px, transparent 1px);
+  background-size: 24px 24px;
+  cursor: grab;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.world {
+  transform-origin: 0 0;
+  will-change: transform;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.frame {
+  /* Used as a selector target for click detection */
+}

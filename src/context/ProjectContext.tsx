@@ -15,6 +15,7 @@ import {
   projectReducer,
 } from "./reducer";
 import { TokenSet } from "@/lib/types/token";
+import { CanvasFrame } from "@/lib/types/canvas";
 
 // ─── Context ──────────────────────────────────────────────────────
 
@@ -23,6 +24,8 @@ interface ProjectContextValue {
   dispatch: Dispatch<Action>;
   /** Resolve a token set ID to the actual TokenSet (base or variation) */
   getTokenSet: (id: string) => TokenSet | undefined;
+  /** Resolve a frame ID to the actual CanvasFrame */
+  getFrame: (id: string) => CanvasFrame | undefined;
 }
 
 const ProjectContext = createContext<ProjectContextValue | null>(null);
@@ -39,9 +42,15 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     };
   }, [state.baseTokens, state.variations]);
 
+  const getFrame = useMemo(() => {
+    return (id: string): CanvasFrame | undefined => {
+      return state.frames.find((f) => f.id === id);
+    };
+  }, [state.frames]);
+
   const value = useMemo(
-    () => ({ state, dispatch, getTokenSet }),
-    [state, dispatch, getTokenSet]
+    () => ({ state, dispatch, getTokenSet, getFrame }),
+    [state, dispatch, getTokenSet, getFrame]
   );
 
   return (

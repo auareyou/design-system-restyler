@@ -1,0 +1,70 @@
+.frame {
+  border-radius: var(--app-radius);
+  border: 1.5px solid var(--app-border);
+  background: var(--app-surface);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.frame:hover {
+  border-color: var(--app-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.selected {
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 2px var(--app-accent-subtle), 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dragging {
+  opacity: 0.9;
+  cursor: grabbing;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--app-surface-raised);
+  border-bottom: 1px solid var(--app-border-subtle);
+  cursor: grab;
+  user-select: none;
+}
+
+.header:active {
+  cursor: grabbing;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--app-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--app-accent);
+  background: var(--app-accent-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.body {
+  pointer-events: none;
+  max-height: 600px;
+  overflow: hidden;
+}

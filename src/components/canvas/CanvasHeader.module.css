@@ -1,0 +1,88 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 48px;
+  background: var(--app-surface);
+  border-bottom: 1px solid var(--app-border);
+  flex-shrink: 0;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backLink {
+  text-decoration: none;
+  display: flex;
+}
+
+.logoMark {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--app-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+}
+
+.sourceTag {
+  font-size: 12px;
+  color: var(--app-text-secondary);
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: var(--app-font-mono);
+}
+
+.zoomControls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  overflow: hidden;
+}
+
+.zoomButton {
+  background: none;
+  border: none;
+  color: var(--app-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 10px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.zoomButton:hover {
+  background: var(--app-accent-subtle);
+  color: var(--app-text);
+}
+
+.zoomLabel {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--app-border);
+  border-right: 1px solid var(--app-border);
+  color: var(--app-text-secondary);
+  font-size: 11px;
+  font-family: var(--app-font-mono);
+  padding: 4px 10px;
+  cursor: pointer;
+  min-width: 48px;
+  text-align: center;
+}
+
+.zoomLabel:hover {
+  color: var(--app-text);
+}

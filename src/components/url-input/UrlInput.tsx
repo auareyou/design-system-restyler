@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { useProject } from "@/context/ProjectContext";
 import { primerComponents, primerBaseTokens } from "@/lib/mocks/github-primer";
 import styles from "./UrlInput.module.css";
@@ -17,12 +18,30 @@ const PHASE_LABELS: Record<string, string> = {
   building_tokens: "Building token set",
 };
 
+function generateSessionId(url: string): string {
+  try {
+    const hostname = new URL(url).hostname.replace(/\./g, "-");
+    return `${hostname}-${Date.now().toString(36)}`;
+  } catch {
+    return `session-${Date.now().toString(36)}`;
+  }
+}
+
 export default function UrlInput() {
   const { dispatch } = useProject();
+  const router = useRouter();
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<ScrapeProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const navigateToCanvas = useCallback(
+    (sessionUrl: string) => {
+      const sessionId = generateSessionId(sessionUrl);
+      router.push(`/canvas/${sessionId}`);
+    },
+    [router]
+  );
 
   const handleScrape = useCallback(async () => {
     if (!url.trim()) return;
@@ -84,6 +103,7 @@ export default function UrlInput() {
               url: url.trim(),
             });
             setLoading(false);
+            navigateToCanvas(url.trim());
             return;
           } else if (eventType === "error") {
             throw new Error(data.message);
@@ -96,16 +116,18 @@ export default function UrlInput() {
       setLoading(false);
       setProgress(null);
     }
-  }, [url, dispatch]);
+  }, [url, dispatch, navigateToCanvas]);
 
   const handleLoadMock = useCallback(() => {
+    const mockUrl = "https://primer.style/storybook/";
     dispatch({
       type: "INIT_PROJECT",
       components: primerComponents,
       tokens: primerBaseTokens,
-      url: "https://primer.style/storybook/",
+      url: mockUrl,
     });
-  }, [dispatch]);
+    navigateToCanvas(mockUrl);
+  }, [dispatch, navigateToCanvas]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {

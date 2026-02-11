@@ -1,0 +1,108 @@
+.container {
+  padding: 16px;
+  border-top: 1px solid var(--app-border);
+}
+
+.title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--app-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.hint {
+  font-size: 11px;
+  color: var(--app-text-secondary);
+  margin: 0 0 12px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.categoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.categoryLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--app-text-secondary);
+  text-transform: capitalize;
+}
+
+.select {
+  flex: 1;
+  max-width: 160px;
+  padding: 4px 8px;
+  font-size: 11px;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-border);
+  border-radius: 4px;
+  color: var(--app-text);
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: var(--app-accent);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.createButton {
+  flex: 1;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--app-accent);
+  color: white;
+  border: none;
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background: var(--app-accent-hover);
+}
+
+.cancelButton {
+  padding: 7px 12px;
+  font-size: 12px;
+  background: none;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-text-secondary);
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background: var(--app-surface-raised);
+}
+
+.combineButton {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--app-surface-raised);
+  border: 1px solid var(--app-accent);
+  border-radius: var(--app-radius-sm);
+  color: var(--app-accent);
+  cursor: pointer;
+}
+
+.combineButton:hover {
+  background: var(--app-accent-subtle);
+}
