@@ -1,0 +1,136 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: var(--app-font-mono);
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+.input:focus {
+  border-color: var(--app-accent);
+}
+
+.input::placeholder {
+  color: var(--app-text-tertiary);
+  font-family: var(--app-font);
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.button {
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--app-font);
+  color: white;
+  background: var(--app-accent);
+  border: none;
+  border-radius: var(--app-radius);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+  white-space: nowrap;
+}
+
+.button:hover {
+  background: var(--app-accent-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressLabel {
+  font-size: 13px;
+  color: var(--app-text-secondary);
+}
+
+.progressBar {
+  height: 4px;
+  background: var(--app-surface);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--app-accent);
+  border-radius: 2px;
+  transition: width 200ms ease;
+}
+
+.error {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: var(--app-radius-sm);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.stats {
+  font-size: 12px;
+  color: var(--app-text-tertiary);
+  display: flex;
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  gap: 4px;
+}
+
+.statValue {
+  color: var(--app-text-secondary);
+  font-weight: 600;
+}
+
+.mockNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--app-text-tertiary);
+}
+
+.mockButton {
+  font-size: 12px;
+  color: var(--app-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--app-font);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mockButton:hover {
+  color: var(--app-accent-hover);
+}

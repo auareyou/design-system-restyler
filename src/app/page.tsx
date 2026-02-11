@@ -1,27 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
 import { useProject } from "@/context/ProjectContext";
-import { primerComponents, primerBaseTokens } from "@/lib/mocks/github-primer";
+import UrlInput from "@/components/url-input/UrlInput";
 import Comparator from "@/components/comparator/Comparator";
 import VariationControls from "@/components/comparator/VariationControls";
 import TokenInspector from "@/components/token-inspector/TokenInspector";
 import styles from "./layout.module.css";
 
 export default function Home() {
-  const { state, dispatch } = useProject();
+  const { state } = useProject();
 
-  // Initialize with mock data on mount
-  useEffect(() => {
-    if (!state.baseTokens) {
-      dispatch({
-        type: "INIT_PROJECT",
-        components: primerComponents,
-        tokens: primerBaseTokens,
-        url: "https://primer.style/storybook/",
-      });
-    }
-  }, [state.baseTokens, dispatch]);
+  const hasProject = state.baseTokens && state.components.length > 0;
 
   return (
     <main className={styles.main}>
@@ -40,14 +29,17 @@ export default function Home() {
         )}
       </header>
 
-      {/* Variation controls */}
-      <VariationControls />
-
-      {/* Side-by-side comparator */}
-      <Comparator />
-
-      {/* Token inspector sidebar (renders when target is set) */}
-      <TokenInspector />
+      {!hasProject ? (
+        /* Landing: URL input */
+        <UrlInput />
+      ) : (
+        /* Workspace: controls + comparator */
+        <>
+          <VariationControls />
+          <Comparator />
+          <TokenInspector />
+        </>
+      )}
     </main>
   );
 }
