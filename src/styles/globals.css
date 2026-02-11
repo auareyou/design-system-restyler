@@ -1,0 +1,68 @@
+/* ── App Chrome tokens (not the design system being tested) ── */
+:root {
+  --app-bg: #0f0f0f;
+  --app-surface: #1a1a1a;
+  --app-surface-raised: #222222;
+  --app-border: #2e2e2e;
+  --app-border-subtle: #252525;
+  --app-text: #e8e8e8;
+  --app-text-secondary: #999999;
+  --app-text-tertiary: #666666;
+  --app-accent: #6366f1;
+  --app-accent-hover: #818cf8;
+  --app-accent-subtle: rgba(99, 102, 241, 0.12);
+  --app-radius: 10px;
+  --app-radius-sm: 6px;
+  --app-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif;
+  --app-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--app-font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--app-text);
+  background: var(--app-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--app-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-text-tertiary);
+}
+
+/* ── Focus ── */
+:focus-visible {
+  outline: 2px solid var(--app-accent);
+  outline-offset: 2px;
+}

@@ -1,0 +1,20 @@
+.wrapper {
+  position: relative;
+}
+
+.preview {
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--app-border);
+  background: var(--color-canvas-default, #ffffff);
+  overflow: hidden;
+}
+
+.componentName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--app-text-secondary);
+  margin-bottom: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
