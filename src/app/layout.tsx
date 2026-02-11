@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { ProjectProvider } from "@/context/ProjectContext";
 
 export const metadata: Metadata = {
   title: "Design System Restyler",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ProjectProvider>{children}</ProjectProvider>
+      </body>
     </html>
   );
 }
