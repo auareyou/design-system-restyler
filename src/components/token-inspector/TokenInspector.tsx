@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect } from "react";
 import { useProject } from "@/context/ProjectContext";
 import { diffTokenSets, TokenDiffEntry } from "@/lib/tokens/differ";
 import { tokenSetToCss } from "@/lib/tokens/serializer";
@@ -46,6 +46,16 @@ function ChangedToken({ entry }: { entry: TokenDiffEntry }) {
   );
 }
 
+function downloadFile(content: string, filename: string, type: string) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function TokenInspector() {
   const { state, dispatch } = useProject();
 
@@ -59,16 +69,50 @@ export default function TokenInspector() {
     return diffTokenSets(state.baseTokens, variation.tokenSet);
   }, [state.baseTokens, variation]);
 
-  const handleExportCss = useCallback(() => {
+  // Keyboard: Escape to close
+  useEffect(() => {
+    if (!state.inspectorTarget) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        dispatch({ type: "SET_INSPECTOR_TARGET", variationId: null });
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [state.inspectorTarget, dispatch]);
+
+  const handleCopyCss = useCallback(() => {
     if (!variation) return;
     const css = tokenSetToCss(variation.tokenSet);
     navigator.clipboard.writeText(css);
   }, [variation]);
 
-  const handleExportJson = useCallback(() => {
+  const handleCopyJson = useCallback(() => {
     if (!variation) return;
     const json = JSON.stringify(variation.tokenSet.tokens, null, 2);
     navigator.clipboard.writeText(json);
+  }, [variation]);
+
+  const handleDownloadCss = useCallback(() => {
+    if (!variation) return;
+    const css = tokenSetToCss(variation.tokenSet);
+    const slug = variation.direction
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 40);
+    downloadFile(css, `tokens-${slug || "variation"}.css`, "text/css");
+  }, [variation]);
+
+  const handleDownloadJson = useCallback(() => {
+    if (!variation) return;
+    const json = JSON.stringify(variation.tokenSet.tokens, null, 2);
+    const slug = variation.direction
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 40);
+    downloadFile(json, `tokens-${slug || "variation"}.json`, "application/json");
   }, [variation]);
 
   if (!state.inspectorTarget || !variation || !diff) return null;
@@ -81,14 +125,17 @@ export default function TokenInspector() {
     <div className={styles.overlay}>
       <div className={styles.header}>
         <span className={styles.title}>Token Inspector</span>
-        <button
-          className={styles.closeButton}
-          onClick={() =>
-            dispatch({ type: "SET_INSPECTOR_TARGET", variationId: null })
-          }
-        >
-          ×
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <span className={styles.hint}>esc</span>
+          <button
+            className={styles.closeButton}
+            onClick={() =>
+              dispatch({ type: "SET_INSPECTOR_TARGET", variationId: null })
+            }
+          >
+            ×
+          </button>
+        </div>
       </div>
 
       {variation.direction && (
@@ -127,12 +174,22 @@ export default function TokenInspector() {
       </div>
 
       <div className={styles.exportArea}>
-        <button className={styles.exportButton} onClick={handleExportCss}>
-          Copy as CSS
-        </button>
-        <button className={styles.exportButton} onClick={handleExportJson}>
-          Copy as JSON
-        </button>
+        <div className={styles.exportRow}>
+          <button className={styles.exportButton} onClick={handleCopyCss}>
+            Copy CSS
+          </button>
+          <button className={styles.exportButton} onClick={handleCopyJson}>
+            Copy JSON
+          </button>
+        </div>
+        <div className={styles.exportRow}>
+          <button className={styles.exportButtonPrimary} onClick={handleDownloadCss}>
+            ↓ Download .css
+          </button>
+          <button className={styles.exportButtonPrimary} onClick={handleDownloadJson}>
+            ↓ Download .json
+          </button>
+        </div>
       </div>
     </div>
   );

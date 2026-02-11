@@ -124,6 +124,20 @@ export default function Comparator() {
                         Inspect tokens
                       </button>
                       <button
+                        className={styles.panelInspectButton}
+                        onClick={() => {
+                          dispatch({
+                            type: "SET_FORK_SOURCE",
+                            tokenSet: variation.tokenSet,
+                          });
+                          // Scroll to the top where the direction input is
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        title="Use this variation as the base for a new generation"
+                      >
+                        Fork
+                      </button>
+                      <button
                         className={styles.panelRemoveButton}
                         onClick={() =>
                           dispatch({

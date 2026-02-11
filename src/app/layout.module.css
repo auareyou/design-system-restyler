@@ -55,3 +55,74 @@
   border-radius: 6px;
   font-family: var(--app-font-mono);
 }
+
+/* ── Landing page ── */
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.landingHero {
+  text-align: center;
+}
+
+.landingTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--app-text);
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+
+.landingSubtitle {
+  font-size: 15px;
+  color: var(--app-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.landingFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.landingFeature {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.featureNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--app-text-tertiary);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.featureText {
+  font-size: 14px;
+  color: var(--app-text-secondary);
+  line-height: 1.5;
+}
+
+.featureText strong {
+  color: var(--app-text);
+  font-weight: 600;
+}

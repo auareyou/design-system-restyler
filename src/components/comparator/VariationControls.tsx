@@ -229,8 +229,11 @@ export default function VariationControls() {
     [state.baseTokens, dispatch]
   );
 
+  // Use fork source if set, otherwise use base tokens
+  const sourceTokens = state.forkSource ?? state.baseTokens;
+
   const handleAiGenerate = useCallback(async () => {
-    if (!state.baseTokens || !aiDirection.trim()) return;
+    if (!sourceTokens || !aiDirection.trim()) return;
 
     setAiLoading(true);
     setAiError(null);
@@ -240,7 +243,7 @@ export default function VariationControls() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          baseTokens: state.baseTokens,
+          baseTokens: sourceTokens,
           direction: aiDirection.trim(),
           brandContext: aiBrandContext.trim() || undefined,
         }),
@@ -264,13 +267,17 @@ export default function VariationControls() {
       };
 
       dispatch({ type: "ADD_VARIATION", variation });
+      // Clear fork source after generating
+      if (state.forkSource) {
+        dispatch({ type: "SET_FORK_SOURCE", tokenSet: null });
+      }
       setAiDirection("");
     } catch (err) {
       setAiError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setAiLoading(false);
     }
-  }, [state.baseTokens, aiDirection, aiBrandContext, dispatch]);
+  }, [sourceTokens, aiDirection, aiBrandContext, dispatch, state.forkSource]);
 
   const handleApplyCustom = useCallback(() => {
     createVariation(label || "Custom override", cssText, label || undefined);
@@ -285,7 +292,12 @@ export default function VariationControls() {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey && !aiLoading && aiDirection.trim()) {
+      if (
+        e.key === "Enter" &&
+        (e.metaKey || e.ctrlKey || !e.shiftKey) &&
+        !aiLoading &&
+        aiDirection.trim()
+      ) {
         e.preventDefault();
         handleAiGenerate();
       }
@@ -295,6 +307,23 @@ export default function VariationControls() {
 
   return (
     <div className={styles.container}>
+      {/* Fork source indicator */}
+      {state.forkSource && (
+        <div className={styles.forkBanner}>
+          <span>
+            Forking from <strong>{state.forkSource.label}</strong>
+          </span>
+          <button
+            className={styles.forkClear}
+            onClick={() =>
+              dispatch({ type: "SET_FORK_SOURCE", tokenSet: null })
+            }
+          >
+            Use original base
+          </button>
+        </div>
+      )}
+
       {/* AI Direction input — primary action */}
       <div>
         <div className={styles.sectionTitle}>Visual direction</div>
@@ -322,6 +351,10 @@ export default function VariationControls() {
               "Generate"
             )}
           </button>
+        </div>
+
+        <div className={styles.keyboardHint}>
+          Press <kbd>Enter</kbd> to generate
         </div>
 
         {/* Brand context toggle */}

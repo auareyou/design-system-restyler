@@ -202,3 +202,50 @@
     transform: rotate(360deg);
   }
 }
+
+.keyboardHint {
+  font-size: 11px;
+  color: var(--app-text-tertiary);
+  margin-top: 4px;
+}
+
+.keyboardHint kbd {
+  font-family: var(--app-font-mono);
+  font-size: 10px;
+  background: var(--app-bg);
+  border: 1px solid var(--app-border);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.forkBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--app-accent);
+  background: var(--app-accent-subtle);
+  border: 1px solid var(--app-accent);
+  border-radius: var(--app-radius-sm);
+}
+
+.forkBanner strong {
+  font-weight: 600;
+}
+
+.forkClear {
+  font-size: 11px;
+  color: var(--app-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-family: var(--app-font);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.forkClear:hover {
+  color: var(--app-text);
+}

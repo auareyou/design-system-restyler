@@ -17,6 +17,8 @@ export interface ProjectState {
   scrollSync: boolean;
   /** Which variation is shown in the token inspector (null = closed) */
   inspectorTarget: string | null;
+  /** Token set to use as fork source for the next AI generation (null = use baseTokens) */
+  forkSource: TokenSet | null;
   error: string | null;
 }
 
@@ -29,6 +31,7 @@ export const initialState: ProjectState = {
   activePanels: [],
   scrollSync: true,
   inspectorTarget: null,
+  forkSource: null,
   error: null,
 };
 
@@ -46,6 +49,7 @@ export type Action =
   | { type: "TOGGLE_SCROLL_SYNC" }
   | { type: "SET_INSPECTOR_TARGET"; variationId: string | null }
   | { type: "SET_ERROR"; error: string | null }
+  | { type: "SET_FORK_SOURCE"; tokenSet: TokenSet | null }
   | { type: "INIT_PROJECT"; components: ComponentGroup[]; tokens: TokenSet; url?: string };
 
 // ─── Reducer ──────────────────────────────────────────────────────
@@ -119,6 +123,9 @@ export function projectReducer(state: ProjectState, action: Action): ProjectStat
 
     case "SET_ERROR":
       return { ...state, error: action.error };
+
+    case "SET_FORK_SOURCE":
+      return { ...state, forkSource: action.tokenSet };
 
     case "INIT_PROJECT":
       return {

@@ -157,12 +157,29 @@
   padding: 4px 0;
 }
 
+.hint {
+  font-size: 10px;
+  color: var(--app-text-tertiary);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--app-font-mono);
+  letter-spacing: 0.03em;
+}
+
 .exportArea {
   padding: 16px 20px;
   border-top: 1px solid var(--app-border);
   display: flex;
+  flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
+}
+
+.exportRow {
+  display: flex;
+  gap: 8px;
 }
 
 .exportButton {
@@ -181,4 +198,24 @@
 .exportButton:hover {
   color: var(--app-text);
   border-color: var(--app-text-tertiary);
+}
+
+.exportButtonPrimary {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: var(--app-font);
+  font-weight: 600;
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-sm);
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.exportButtonPrimary:hover {
+  background: var(--app-accent);
+  color: white;
+  border-color: var(--app-accent);
 }
